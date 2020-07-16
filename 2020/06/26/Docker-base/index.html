@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.1" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Docker基础 - Atomsk</title>
+
+
+
+
+
+
+
+
+<link rel="icon" href="/blog/images/favicon.ico">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/github.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/blog/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/blog/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+<link rel="stylesheet" href="/blog/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/blog/">
+            
+                <img src="/blog/images/logo.svg" alt="Docker基础" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/blog/">主页</a>
+                
+                <a class="navbar-item"
+                href="/blog/archives/">归档</a>
+                
+                <a class="navbar-item"
+                href="/blog/categories/">分类</a>
+                
+                <a class="navbar-item"
+                href="/blog/tags/">标签</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Atomsk GitHub" href="https://www.github.com/AtomskGit">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <i class="fas fa-angle-double-right"></i>Docker基础
+            
+        </h1>
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-06-25T17:42:44.000Z"><i class="far fa-calendar-alt">&nbsp;</i>2020-06-26</time>
+                
+                <time class="level-item has-text-grey is-hidden-mobile" datetime="2020-07-16T15:07:05.646Z"><i class="far fa-calendar-check">&nbsp;</i>2020-07-16</time>
+                
+                
+                <div class="level-item">
+                <i class="far fa-folder-open has-text-grey"></i>&nbsp;
+                <a class="has-link-grey -link" href="/blog/categories/%E8%BF%90%E7%BB%B4/">运维</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    <i class="far fa-clock"></i>&nbsp;
+                    
+                    
+                    17 分钟 读完 (大约 2613 个字)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span>次访问
+                </span>
+                
+            </div>
+        </div>
+        
+        <div class="content">
+            <p><strong>笔记整理来源 B站UP主<a href="https://space.bilibili.com/95256449/">遇见狂神说</a></strong></p>
+<h2 id="Docker基本概念"><a href="#Docker基本概念" class="headerlink" title="Docker基本概念"></a>Docker基本概念</h2><p>Docker是一个使用容器<strong>开发</strong>、<strong>部署</strong>和<strong>运行</strong>应用程序的平台。使用Linux容器部署应用程序称为容器化。</p>
+<p>容器化越来越受欢迎，是因为容器有以下特点：</p>
+<ul>
+<li>灵活性：即使是最复杂的应用程序也可以被容器化</li>
+<li>轻量级：容器利用并共享主机内核</li>
+<li>可互换的：你可以实时部署更新和升级</li>
+<li>可移植性：你可以在本地构建、部署到云，并在任何地方运行</li>
+<li>可伸缩：你可以增加并自动分发容器副本</li>
+<li>可叠加：你可以垂直地、动态地叠加服务</li>
+</ul>
+<a id="more"></a>
+
+<h2 id="Docker的基本组成"><a href="#Docker的基本组成" class="headerlink" title="Docker的基本组成"></a>Docker的基本组成</h2><img src="/blog/2020/06/26/Docker-base/image-20200514195805400.png" class="" title="img">
+
+<p><strong>镜像（image)：</strong>一个镜像是一个可执行包，它包含运行应用程序所需的所有内容，包括代码、运行时环境、库、环境变量、配置文件。</p>
+<p><strong>容器(container)：</strong>容器是镜像的运行时实例。可以把一个容器理解成一个简易的 Linux系统。</p>
+<p><strong>仓库(repository)：</strong>仓库就是存放镜像的地方，Docker Hub是国外的，所以要下载镜像前要配置阿里云镜像加速器。</p>
+<h3 id="容器和虚拟机对比"><a href="#容器和虚拟机对比" class="headerlink" title="容器和虚拟机对比"></a>容器和虚拟机对比</h3><img src="/blog/2020/06/26/Docker-base/container-VS-VM.jpg" class="" title="img">
+
+<h2 id="Docker安装"><a href="#Docker安装" class="headerlink" title="Docker安装"></a>Docker安装</h2><p>帮助文档：<a href="https://docs.docker.com/engine/install/">https://docs.docker.com/engine/install/</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1.卸载旧版本</span></span><br><span class="line">$ yum remove docker \</span><br><span class="line">                  docker-client \</span><br><span class="line">                  docker-client-latest \</span><br><span class="line">                  docker-common \</span><br><span class="line">                  docker-latest \</span><br><span class="line">                  docker-latest-logrotate \</span><br><span class="line">                  docker-logrotate \</span><br><span class="line">                  docker-engine</span><br><span class="line"><span class="comment">#2.Install the yum-utils package (which provides the yum-config-manager utility) and set up the stable repository.</span></span><br><span class="line">$ yum install -y yum-utils</span><br><span class="line">$ yum-config-manager \</span><br><span class="line">    --add-repo \</span><br><span class="line">   https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo <span class="comment">#此处用阿里云的仓库</span></span><br><span class="line"><span class="comment">#更新yum软件包索引</span></span><br><span class="line">$ yum makecache fast</span><br><span class="line"><span class="comment">#3.安装docker相关的 docker-ce 社区版 而ee是企业版</span></span><br><span class="line">$ yum install docker-ce docker-ce-cli containerd.io</span><br><span class="line"><span class="comment">#4. 使用docker version查看是否按照成功</span></span><br><span class="line">$ docker version</span><br><span class="line"><span class="comment">#5. 测试</span></span><br><span class="line">$ docker run hello-world</span><br></pre></td></tr></table></figure>
+
+<p><strong>安装完成后配置阿里云镜像加速器</strong></p>
+<h2 id="Docker常用命令"><a href="#Docker常用命令" class="headerlink" title="Docker常用命令"></a>Docker常用命令</h2><p>帮助文档：<a href="https://docs.docker.com/reference/">https://docs.docker.com/reference/</a></p>
+<h3 id="镜像命令"><a href="#镜像命令" class="headerlink" title="镜像命令"></a>镜像命令</h3><p>使用docker image查看所有镜像相关命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker images <span class="comment">#查看所有本地主机上的镜像</span></span><br><span class="line">docker pull IMAGE[:TAG] <span class="comment">#下载镜像</span></span><br><span class="line">docker rmi IMAGE <span class="comment">#删除镜像</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="容器命令"><a href="#容器命令" class="headerlink" title="容器命令"></a>容器命令</h3><p>使用docker containter查看所有容器相关明命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker ps <span class="comment">#列出所有运行中的容器</span></span><br><span class="line">docker run 镜像id <span class="comment">#新建容器并启动</span></span><br><span class="line">docker rm 容器id <span class="comment">#删除指定容器</span></span><br></pre></td></tr></table></figure>
+<p>常用的镜像创建示例</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mysql：</span><br><span class="line">docker run --name vhr-data -e MYSQL_ROOT_PASSWORD=123456 -v /home/atomsk/mysql/db:/var/lib/mysql -d -p 3306:3306 mysql</span><br><span class="line"></span><br><span class="line">redis：</span><br><span class="line">docker run --name vhr-redis -d -p 6379:6379 redis</span><br><span class="line"></span><br><span class="line">rabbitmq：</span><br><span class="line">docker run --name vhr-rabbitmq -d -p 5672:5672 -p 15672:15672 rabbitmq</span><br><span class="line"></span><br><span class="line">nginx：</span><br><span class="line">docker run --name vhr-nginx -v /home/atomsk/vhr/vuehr:/usr/share/nginx/html -v /home/atomsk/vhr/nginx/nginx.conf:/etc/nginx/nginx.conf -d -p 8085:80 nginx</span><br><span class="line">或者</span><br><span class="line">docker run --name vhr-nginx -v /home/atomsk/vhr/vuehr:/usr/share/nginx/html -v /home/atomsk/vhr/nginx/default.conf:/etc/nginx/conf.d/default.conf -d -p 8085:80 nginx</span><br></pre></td></tr></table></figure>
+<p>启动和停止容器的操作</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker start 容器id	<span class="comment">#启动容器</span></span><br><span class="line">docker restart 容器id	<span class="comment">#重启容器</span></span><br><span class="line">docker stop 容器id	<span class="comment">#停止当前正在运行的容器</span></span><br><span class="line">docker <span class="built_in">kill</span> 容器id	<span class="comment">#强制停止当前容器</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="其他常用命令"><a href="#其他常用命令" class="headerlink" title="其他常用命令"></a>其他常用命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker logs 容器id <span class="comment">#查看日志</span></span><br><span class="line">docker inspect 镜像id/容器id <span class="comment">#查看镜像/容器的元数据</span></span><br><span class="line">docker <span class="built_in">exec</span> -it 容器id /bin/bash <span class="comment">#进入容器</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="命令图解"><a href="#命令图解" class="headerlink" title="命令图解"></a>命令图解</h3><img src="/blog/2020/06/26/Docker-base/command.png" class="" title="command">
+
+<h2 id="Docker镜像详解"><a href="#Docker镜像详解" class="headerlink" title="Docker镜像详解"></a>Docker镜像详解</h2><h3 id="镜像是什么"><a href="#镜像是什么" class="headerlink" title="镜像是什么"></a>镜像是什么</h3><p>镜像是一种轻量级、可执行的独立软件包，用来打包软件运行环境和基于运行环境开发的软件，它包含运行某个软件所需的所有内容，包括代码、运行时环境、库、环境变量和配置文件。</p>
+<p>如何得到镜像：</p>
+<ul>
+<li>从远程仓库下载</li>
+<li>通过DockerFile自制一个镜像</li>
+</ul>
+<h3 id="镜像加载原理"><a href="#镜像加载原理" class="headerlink" title="镜像加载原理"></a>镜像加载原理</h3><blockquote>
+<p>UnionFS（联合文件系统）</p>
+</blockquote>
+<p>UnionFS是一种分层、轻量级并且高性能的文件系统，它支持对文件系统的修改作为一次提交来一层层的叠加，同时可以将不同目录挂载到同一个虚拟文件系统下。Union文件系统是 Docker镜像的基础。镜像可以通过分层来进行继承，基于基础镜像，可以制作各种具体的应用镜像。</p>
+<p>特性：一次同时加载多个文件系统，但从外面看起来，只能看到一个文件系统，联合加载会把各层文件系统叠加起来，这样最终的文件系统会包含所有底层的文件和目录</p>
+<blockquote>
+<p>Docker镜像加载原理</p>
+</blockquote>
+<p>Docker的镜像实际上由一层一层的文件系统组成，这种层级的文件系统就是UnionFS。</p>
+<p><strong>boots(boot file system）</strong>主要包含 bootloader和 Kernel。</p>
+<p>bootloader主要是引导加 kernel，Linux刚启动时会加载bootfs文件系统，在 Docker镜像的最底层是 boots。这一层与我们典型的Linux/Unix系统是一样的，包含boot加載器和内核。当boot加载完成之后整个内核就都在内存中了，此时内存的使用权已由 bootfs转交给内核，此时系统也会卸载bootfs。</p>
+<p><strong>rootfs（root file system)</strong>，在 bootfs之上。包含的就是典型 Linux系统中的/dev,/proc,/bin,/etc等标准目录和文件。</p>
+<p>对于一个精简的OS，rootfs可以很小，只需要包括最基本的命令、工具和程序库就可以了，因为底层直接用Host（宿主机）的kernel，自己只需要提供rootfs就行了，由此可见对于不同的Linux发行版，bootfs基本是一致的，rootfs会有差别，因此不同的发行版可以公用bootfs。</p>
+<center><img src="/blog/2020/06/26/Docker-base/%E9%95%9C%E5%83%8F%E5%88%86%E5%B1%82.png" class="" title="镜像分层"></center>
+
+<blockquote>
+<p>对分层的理解</p>
+</blockquote>
+<img src="/blog/2020/06/26/Docker-base/pull_image.png" class="" title="img">
+
+<p>思考：为什么Docker镜像要采用这种分层的结构呢？</p>
+<p>最大的好处，我觉得莫过于资源共享了！比如有多个镜像都从相同的base镜像构建而来，那么宿主机只需在磁盘上保留一份base镜像；同时内存中也只需要加载一份base镜像，就可以为所有的容器服务了，而且镜像的每一层都可以被共享。</p>
+<p>可以通过 <code>docker inspect 镜像id</code> 命令查看镜像元数据，看到镜像的具体分层信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="string">"RootFS"</span>: &#123;</span><br><span class="line">            <span class="string">"Type"</span>: <span class="string">"layers"</span>,</span><br><span class="line">            <span class="string">"Layers"</span>: [</span><br><span class="line">                <span class="string">"sha256:c2adabaecedbda0af72b153c6499a0555f3a769d52370469d8f6bd6328af9b13"</span>,</span><br><span class="line">                <span class="string">"sha256:744315296a49be711c312dfa1b3a80516116f78c437367ff0bc678da1123e990"</span>,</span><br><span class="line">                <span class="string">"sha256:379ef5d5cb402a5538413d7285b21aa58a560882d15f1f553f7868dc4b66afa8"</span>,</span><br><span class="line">                <span class="string">"sha256:d00fd460effb7b066760f97447c071492d471c5176d05b8af1751806a1f905f8"</span>,</span><br><span class="line">                <span class="string">"sha256:4d0c196331523cfed7bf5bafd616ecb3855256838d850b6f3d5fba911f6c4123"</span>,</span><br><span class="line">                <span class="string">"sha256:98b4a6242af2536383425ba2d6de033a510e049d9ca07ff501b95052da76e894"</span></span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>Docker通过存储引擎（新版本采用快照机制）的方式来实现镜像层堆栈，并保证多镜像层对外展示为统一的文件系统</p>
+<p>Linux上可用的存储引撃有AUFS、 Overlay2、 Device Mapper、Btrfs以及ZFS。顾名思义，每种存储引擎都基于 Linux中对应的<br>件系统或者块设备技术，井且每种存储引擎都有其独有的性能特点。</p>
+<blockquote>
+<p>分层特点</p>
+</blockquote>
+<p>当容器启动时，一个新的可写层被加载到镜像的顶部。这一层通常被称作“容器层”，“容器层”之下的都叫“镜像层”。</p>
+<center><img src="/blog/2020/06/26/Docker-base/%E5%AE%B9%E5%99%A8%E5%B1%82.png" class="" title="容器层"><center>
+
+<p>所有对容器的改动 - 无论添加、删除、还是修改文件都只会发生在容器层中。只有<strong>容器层是可写的，容器层下面的所有镜像层都是只读的</strong>。</p>
+<h3 id="容器层的细节说明"><a href="#容器层的细节说明" class="headerlink" title="容器层的细节说明"></a>容器层的细节说明</h3><p>镜像层数量可能会很多，所有镜像层会联合在一起组成一个统一的文件系统。如果不同层中有一个相同路径的文件，比如 /a，上层的 /a 会覆盖下层的 /a，也就是说用户只能访问到上层中的文件 /a。在容器层中，用户看到的是一个叠加之后的文件系统。</p>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>文件操作</strong></th>
+<th align="left"><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>添加文件</strong></td>
+<td align="left">在容器中创建文件时，新文件被添加到容器层中。</td>
+</tr>
+<tr>
+<td align="center"><strong>读取文件</strong></td>
+<td align="left">在容器中读取某个文件时，Docker 会从上往下依次在各镜像层中查找此文件。一旦找到，立即将其复制到容器层，然后打开并读入内存。</td>
+</tr>
+<tr>
+<td align="center"><strong>修改文件</strong></td>
+<td align="left">在容器中修改已存在的文件时，Docker 会从上往下依次在各镜像层中查找此文件。一旦找到，立即将其复制到容器层，然后修改之。</td>
+</tr>
+<tr>
+<td align="center"><strong>删除文件</strong></td>
+<td align="left">在容器中删除文件时，Docker 也是从上往下依次在镜像层中查找此文件。找到后，会在容器层中<strong>记录下此删除操作</strong>。（比如增加一个对应的Whiteout文件）</td>
+</tr>
+</tbody></table>
+<p>只有当需要修改时才复制一份数据，这种特性被称作 Copy-on-Write。可见，容器层保存的是镜像变化的部分，不会对镜像本身进行任何修改。</p>
+<h3 id="通过commit指令生成镜像"><a href="#通过commit指令生成镜像" class="headerlink" title="通过commit指令生成镜像"></a>通过commit指令生成镜像</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1、启动一个默认的tomcat</span></span><br><span class="line">$ docker run -d -p 8080:8080 tomcat</span><br><span class="line"><span class="comment"># 2、发现这个默认的tomcat 是没有webapps应用，官方的镜像默认webapps下面是没有文件的！</span></span><br><span class="line">$ docker <span class="built_in">exec</span> -it 容器id</span><br><span class="line"><span class="comment"># 3、拷贝文件进去</span></span><br><span class="line"><span class="comment"># 4、将操作过的容器通过commit调教为一个镜像！我们以后就使用我们修改过的镜像即可，这就是我们自己的一个修改的镜像。</span></span><br><span class="line"><span class="comment"># docker commit -m="描述信息" -a="作者" 容器id 目标镜像名:[TAG]</span></span><br><span class="line">$ docker commit -a=<span class="string">"atomsk"</span> -m=<span class="string">"add webapps app"</span> 容器id mytomcat:1.0</span><br></pre></td></tr></table></figure>
+
+<p>如果你想要保存当前容器的状态，就可以通过<code>commit</code>来提交，获得一个镜像，就好比我们我们使用虚拟机的快照。</p>
+
+        </div>
+        
+            <ul class="post-copyright">
+            <li><strong>本文标题：</strong><a href="https://atomsk.gitee.io/blog/2020/06/26/Docker-base/">Docker基础</a></li>
+            <li><strong>本文作者：</strong><a href="https://atomsk.gitee.io/blog">Atomsk</a></li>
+            <li><strong>本文链接：</strong><a href="https://atomsk.gitee.io/blog/2020/06/26/Docker-base/">https://atomsk.gitee.io/blog/2020/06/26/Docker-base/</a></li>
+            <li><strong>发布时间：</strong>2020-06-26</li>
+            <li><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+            </li>
+            </ul>
+        
+        
+        <hr style="height:1px;margin:1rem 0"/>
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <i class="fas fa-tags has-text-grey"></i>&nbsp;
+                    <a class="has-link-grey -link" href="/blog/tags/Docker/" rel="tag">Docker</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/blog/2020/06/28/Docker-advanced/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Docker进阶</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/blog/2020/05/30/Vue-base/">
+                <span class="level-item">Vue基础</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: 'b83c0e2ec60e7a59483e72fa6e6100f3',
+		owner: 'AtomskGit',
+		repo: 'blog',
+		oauth: {
+			client_id: 'd4303a39a13433a6c1b7',
+			client_secret: 'c178930c0b66ddc811a1e0c595a3b470aad56d86',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+    </div>
+</div>
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level" style="margin-bottom:1rem">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-96x96 has-mb-6">
+                        <img class="" src="https://atomskgit.github.io/blog/images/head.jpg" alt="Atomsk">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Atomsk
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Atomsk@126.com
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Guangzhou, China</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level menu-list is-mobile" style="margin-bottom:1rem">
+            <div class="level-item has-text-centered is-marginless">
+                <a href="/blog/archives/">
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        14
+                    </p>
+                </a>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <a href="/blog/categories/">
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        11
+                    </p>
+                </a>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <a href="/blog/tags/">
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        11
+                    </p>
+                </a>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://www.github.com/AtomskGit" target="_blank" rel="noopener">
+                <i class="fab fa-github"></i>&nbsp;&nbsp;关注我</a>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+    
+        
+
+    <div class="card widget column-left is-sticky" id="toc">
+        <div class="card-content" style="max-height:calc(100vh - 22px);overflow:scroll">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#Docker基本概念">
+        <span class="has-mr-6">1</span>
+        <span>Docker基本概念</span>
+        </a></li><li>
+        <a class="is-flex" href="#Docker的基本组成">
+        <span class="has-mr-6">2</span>
+        <span>Docker的基本组成</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#容器和虚拟机对比">
+        <span class="has-mr-6">2.1</span>
+        <span>容器和虚拟机对比</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Docker安装">
+        <span class="has-mr-6">3</span>
+        <span>Docker安装</span>
+        </a></li><li>
+        <a class="is-flex" href="#Docker常用命令">
+        <span class="has-mr-6">4</span>
+        <span>Docker常用命令</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#镜像命令">
+        <span class="has-mr-6">4.1</span>
+        <span>镜像命令</span>
+        </a></li><li>
+        <a class="is-flex" href="#容器命令">
+        <span class="has-mr-6">4.2</span>
+        <span>容器命令</span>
+        </a></li><li>
+        <a class="is-flex" href="#其他常用命令">
+        <span class="has-mr-6">4.3</span>
+        <span>其他常用命令</span>
+        </a></li><li>
+        <a class="is-flex" href="#命令图解">
+        <span class="has-mr-6">4.4</span>
+        <span>命令图解</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Docker镜像详解">
+        <span class="has-mr-6">5</span>
+        <span>Docker镜像详解</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#镜像是什么">
+        <span class="has-mr-6">5.1</span>
+        <span>镜像是什么</span>
+        </a></li><li>
+        <a class="is-flex" href="#镜像加载原理">
+        <span class="has-mr-6">5.2</span>
+        <span>镜像加载原理</span>
+        </a></li><li>
+        <a class="is-flex" href="#容器层的细节说明">
+        <span class="has-mr-6">5.3</span>
+        <span>容器层的细节说明</span>
+        </a></li><li>
+        <a class="is-flex" href="#通过commit指令生成镜像">
+        <span class="has-mr-6">5.4</span>
+        <span>通过commit指令生成镜像</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/blog/">
+                
+                    <img src="/blog/images/logo.svg" alt="Docker基础" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Atomsk&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_uv">
+                共<span id="busuanzi_value_site_uv">0</span>个访客
+                </span>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                        
+                        <i class="fab fa-creative-commons"></i>&nbsp;<i class="fab fa-creative-commons-by"></i>&nbsp;<i class="fab fa-creative-commons-nc"></i>&nbsp;<i class="fab fa-creative-commons-sa"></i>&nbsp;
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Atomsk GitHub" href="https://www.github.com/AtomskGit">
+                        
+                        <i class="fab fa-github"></i>&nbsp;
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://atomsk.gitee.io/blog',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/blog/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/blog/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/blog/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/blog/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/blog/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/blog/js/insight.js" defer></script>
+<link rel="stylesheet" href="/blog/css/search.css">
+<link rel="stylesheet" href="/blog/css/insight.css">
+    
+</body>
+</html>

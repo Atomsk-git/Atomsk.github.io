@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.1" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Docker进阶 - Atomsk</title>
+
+
+
+
+
+
+
+
+<link rel="icon" href="/blog/images/favicon.ico">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/github.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/blog/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/blog/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+<link rel="stylesheet" href="/blog/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/blog/">
+            
+                <img src="/blog/images/logo.svg" alt="Docker进阶" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/blog/">主页</a>
+                
+                <a class="navbar-item"
+                href="/blog/archives/">归档</a>
+                
+                <a class="navbar-item"
+                href="/blog/categories/">分类</a>
+                
+                <a class="navbar-item"
+                href="/blog/tags/">标签</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Atomsk GitHub" href="https://www.github.com/AtomskGit">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <i class="fas fa-angle-double-right"></i>Docker进阶
+            
+        </h1>
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-06-28T04:37:39.000Z"><i class="far fa-calendar-alt">&nbsp;</i>2020-06-28</time>
+                
+                <time class="level-item has-text-grey is-hidden-mobile" datetime="2020-07-16T15:07:05.644Z"><i class="far fa-calendar-check">&nbsp;</i>2020-07-16</time>
+                
+                
+                <div class="level-item">
+                <i class="far fa-folder-open has-text-grey"></i>&nbsp;
+                <a class="has-link-grey -link" href="/blog/categories/%E8%BF%90%E7%BB%B4/">运维</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    <i class="far fa-clock"></i>&nbsp;
+                    
+                    
+                    11 分钟 读完 (大约 1711 个字)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span>次访问
+                </span>
+                
+            </div>
+        </div>
+        
+        <div class="content">
+            <p><strong>笔记整理来源 B站UP主<a href="https://space.bilibili.com/95256449/">遇见狂神说</a></strong></p>
+<h2 id="Docker容器数据卷"><a href="#Docker容器数据卷" class="headerlink" title="Docker容器数据卷"></a>Docker容器数据卷</h2><p> 在Docker容器的实际使用中，经常会遇到容器的数据持久化，容器之间的数据共享等问题，通常我们有两种解决方案：</p>
+<ol>
+<li>数据卷（Data Volumes）：就是将容器内数据直接映射到本地主机环境的指定文件目录之中，可以理解为容器挂载一个虚拟数据卷然后    映射到一个主机目录中 </li>
+<li>数据卷容器（Data Volume Containers）：用专门的容器来挂载数据卷，其他容器通过挂载这个父容器来实现数据共享，这个专门挂载数据卷的容器就是数据卷容器，简单的总结就是有一个容器来专门管理数据的持久化和容器之间数据共享。</li>
+</ol>
+<a id="more"></a>
+
+<h3 id="使用数据卷"><a href="#使用数据卷" class="headerlink" title="使用数据卷"></a>使用数据卷</h3><blockquote>
+<p>方式一：直接使用命令挂载 -v</p>
+</blockquote>
+<ul>
+<li><p>指定路径进行挂载</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#指定路径挂载 -v 宿主机路径:容器内路径 </span></span><br><span class="line">docker run --name vhr-data -e MYSQL_ROOT_PASSWORD=123456 -v /home/atomsk/mysql/db:/var/lib/mysql -d -p 3306:3306 mysql</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>匿名挂载和具名挂载</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 匿名挂载 -v 容器内路径</span></span><br><span class="line">$ docker run -d -P --name nginx01 -v /etc/nginx nginx</span><br><span class="line">$ docker volume ls    <span class="comment"># 查看所有的volume的情况</span></span><br><span class="line">DRIVER              VOLUME NAME</span><br><span class="line"><span class="built_in">local</span>               33ae588fae6d34f511a769948f0d3d123c9d45c442ac7728cb85599c2657e50d   </span><br><span class="line"></span><br><span class="line"><span class="comment"># 具名挂载 -v 卷名:容器内路径</span></span><br><span class="line">$ docker run -d -P --name nginx02 -v juming-nginx:/etc/nginx nginx</span><br><span class="line">$ docker volume ls               </span><br><span class="line">DRIVER              VOLUME NAME</span><br><span class="line"><span class="built_in">local</span>               juming-nginx</span><br></pre></td></tr></table></figure>
+
+<p>也可以通过<code>docker volume inspect 卷名</code>查看卷的情况</p>
+<img src="/blog/2020/06/28/Docker-advanced/volume-inspect.png" class="" title="img">
+
+<p><strong>注意</strong>：所有的Docker容器内的卷，在没有指定目录的情况下都是在<code>/var/lib/docker/volumes/xxxx/_data</code>路径下的</p>
+<p><strong>拓展：</strong>容器对宿主机文件的操作权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通过 -v 容器内路径： ro rw 改变读写权限</span></span><br><span class="line">ro <span class="comment">#readonly 只读</span></span><br><span class="line">rw <span class="comment">#readwrite 可读可写</span></span><br><span class="line">$ docker run -d -P --name nginx05 -v juming:/etc/nginx:ro nginx</span><br><span class="line">$ docker run -d -P --name nginx05 -v juming:/etc/nginx:rw nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># ro 只要看到ro就说明这个路径只能通过宿主机来操作，容器内部是无法操作！</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>方式二：通过Dockerfile添加</p>
+</blockquote>
+<p><strong>注意</strong>：出于可移植可分享的的考虑，用以上 -v /宿主机绝对路径目录 : /容器内目录 的这种方式不能够直接在DockerFile中直接实现，因为宿主机目录是依赖于特定的宿主机的，并不能保证所有的宿主机都存在这样特定的目录</p>
+<p>假设编写的DockerFile如下</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span>  镜像名</span><br><span class="line"></span><br><span class="line"><span class="keyword">VOLUME</span><span class="bash"> [<span class="string">"/容器内路径"</span>]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> <span class="built_in">echo</span> <span class="string">"success build"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> /bin/bash</span></span><br></pre></td></tr></table></figure>
+
+<p>指令<code>VOLUME [&quot;/生成的目录路径&quot;]</code>就相当于<code>docker run -it -v /容器内路径</code>，即<strong>匿名挂载</strong></p>
+<h3 id="使用数据卷容器"><a href="#使用数据卷容器" class="headerlink" title="使用数据卷容器"></a>使用数据卷容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -it - -name parentContainer 镜像名</span><br><span class="line"></span><br><span class="line">$ docker run -it - -name sonContainer1 --volumes -from parentContainer 镜像名</span><br><span class="line">$ docker run -it - -name sonContainer2 --volumes -from parentContainer 镜像名</span><br></pre></td></tr></table></figure>
+
+<p>官网上有一句话描述的是，容器之间配置信息的传递，数据卷的生命周期会一致持续到没有容器使用它为止，换言之，只要有一个容器仍在使用该数据卷，该数据卷一直都可以进行数据共享。</p>
+<p>通俗地来说，如果此时我们把父容器关闭掉，两个字容器之间依旧可以进行数据共享，而且通过继承子容器生成的新容器，一样可以与子容器进行数据共享。这就是docker容器间的数据传递共享。</p>
+<h2 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h2><p>Dockerfile 就是用来构建docker镜像的构建文件，是一个命令参数脚本。</p>
+<h3 id="构建步骤"><a href="#构建步骤" class="headerlink" title="构建步骤"></a>构建步骤</h3><ol>
+<li>编写一个Dockerfile文件</li>
+<li>docker build -f Dockerfile名 -t 命名空间/镜像名:[tag] 构建出一个镜像</li>
+<li>docker run 运行镜像（测试）</li>
+<li>docker push 发布镜像（DockerHub 、阿里云仓库)</li>
+</ol>
+<h3 id="Dockerfile的编写"><a href="#Dockerfile的编写" class="headerlink" title="Dockerfile的编写"></a>Dockerfile的编写</h3><p>基础知识：</p>
+<ol>
+<li>每个保留关键字都是必须是大写字母</li>
+<li>从上到下顺序执行，#表示注释</li>
+<li>每一个指令都会创建一个新的镜像层</li>
+</ol>
+<p>Dockerfile指令：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span>				<span class="comment"># 基础镜像，一切从这里开始构建</span></span><br><span class="line"><span class="keyword">MAINTAINER</span>			<span class="comment"># 镜像是谁写的， 姓名+邮箱</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash">					<span class="comment"># 镜像构建的时候需要运行的命令</span></span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash">					<span class="comment"># 格式举例：ADD tomcat.tar.gz /usr/local/，会自动解压</span></span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash">				<span class="comment"># 镜像的工作目录</span></span></span><br><span class="line"><span class="keyword">VOLUME</span><span class="bash">				<span class="comment"># 挂载的目录</span></span></span><br><span class="line"><span class="keyword">EXPOSE</span>				<span class="comment"># 保留端口配置</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash">					<span class="comment"># 指定这个容器启动的时候默认运行的命令，当指定其他命令时会被替换。ls -a 指定-l =》 -l 报错</span></span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash">			<span class="comment"># 指定这个容器启动的时候默认运行的命令，可以在其基础上追加命令 ls -a，追加-l =》 ls -al</span></span></span><br><span class="line"><span class="keyword">ONBUILD</span>				<span class="comment"># 当构建一个被继承 DockerFile 这个时候就会运行ONBUILD的指令，触发指令。</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash">				<span class="comment"># 类似ADD，直接将文件拷贝到镜像中</span></span></span><br><span class="line"><span class="keyword">ENV</span>					<span class="comment"># 构建的时候设置环境变量！</span></span><br></pre></td></tr></table></figure>
+
+<p>✅可以通过<code>docker history 镜像id</code>查看镜像的构建过程</p>
+<h3 id="实战：Tomcat镜像构建"><a href="#实战：Tomcat镜像构建" class="headerlink" title="实战：Tomcat镜像构建"></a>实战：Tomcat镜像构建</h3><ol>
+<li><p>准备镜像文件</p>
+<p> 准备tomcat 和 jdk到当前目录，编写好README</p>
+</li>
+<li><p>编写Dokerfile</p>
+</li>
+</ol>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> centos <span class="comment">#</span></span><br><span class="line"><span class="keyword">MAINTAINER</span> Atomsk&lt;Atomsk@<span class="number">126</span>.com&gt;</span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> README /usr/<span class="built_in">local</span>/README <span class="comment">#复制文件</span></span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> jdk-8u231-linux-x64.tar.gz /usr/<span class="built_in">local</span>/ <span class="comment">#复制解压</span></span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> apache-tomcat-9.0.35.tar.gz /usr/<span class="built_in">local</span>/ <span class="comment">#复制解压</span></span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> yum -y install vim</span></span><br><span class="line"><span class="keyword">ENV</span> MYPATH /usr/local <span class="comment">#设置环境变量</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> <span class="variable">$MYPATH</span> <span class="comment">#设置工作目录</span></span></span><br><span class="line"><span class="keyword">ENV</span> JAVA_HOME /usr/local/jdk1.<span class="number">8.0</span>_231 <span class="comment">#设置环境变量</span></span><br><span class="line"><span class="keyword">ENV</span> CATALINA_HOME /usr/local/apache-tomcat-<span class="number">9.0</span>.<span class="number">35</span> <span class="comment">#设置环境变量</span></span><br><span class="line"><span class="keyword">ENV</span> PATH $PATH:$JAVA_HOME/bin:$CATALINA_HOME/lib <span class="comment">#设置环境变量 分隔符是：</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">8080</span> <span class="comment">#设置暴露的端口</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> /usr/<span class="built_in">local</span>/apache-tomcat-9.0.35/bin/startup.sh &amp;&amp; tail -F /usr/<span class="built_in">local</span>/apache-tomcat-9.0.35/logs/catalina.out <span class="comment"># 设置默认命令</span></span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>构建镜像</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 因为dockerfile命名使用默认命名 因此不用使用-f 指定文件</span></span><br><span class="line">$ docker build -t mytomcat:0.1 .</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>run镜像</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -d -p 8080:8080 --name tomcat01 -v /home/atomsk/build/tomcat/<span class="built_in">test</span>:/usr/<span class="built_in">local</span>/apache-tomcat-9.0.35/webapps/<span class="built_in">test</span> -v /home/atomsk/build/tomcat/tomcatlogs/:/usr/<span class="built_in">local</span>/apache-tomcat-9.0.35/logs mytomcat:0.1</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><p>访问测试</p>
+</li>
+<li><p>发布项目(由于做了卷挂载，我们直接在本地编写项目就可以发布了！)</p>
+</li>
+</ol>
+<h3 id="发布镜像"><a href="#发布镜像" class="headerlink" title="发布镜像"></a>发布镜像</h3><p>发布到Dockerhub：</p>
+<ol>
+<li><p>注册，地址 <a href="https://hub.docker.com/">https://hub.docker.com/</a></p>
+</li>
+<li><p>登录</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker login -u 用户名</span><br><span class="line"><span class="comment">#回车然后输入密码</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>提交 push镜像</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># push不上去的解决方法</span></span><br><span class="line"><span class="comment"># 第一种 build的时候添加你的dockerhub用户名，然后在push就可以放到自己的仓库了</span></span><br><span class="line">$ docker build -t atomsk/mytomcat:0.1 .</span><br><span class="line"><span class="comment"># 第二种 使用docker tag #然后再次push</span></span><br><span class="line">$ docker tag 容器id atomsk/mytomcat:1.0 <span class="comment">#然后再次push</span></span><br></pre></td></tr></table></figure>
+
+<p>发布到阿里云镜像服务器：</p>
+<p>​    详见官网：<a href="https://cr.console.aliyun.com/repository/">https://cr.console.aliyun.com/repository/</a></p>
+<hr>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><img src="/blog/2020/06/28/Docker-advanced/Dockerfile.jpg" class="" title="Dockerfile">
+        </div>
+        
+            <ul class="post-copyright">
+            <li><strong>本文标题：</strong><a href="https://atomsk.gitee.io/blog/2020/06/28/Docker-advanced/">Docker进阶</a></li>
+            <li><strong>本文作者：</strong><a href="https://atomsk.gitee.io/blog">Atomsk</a></li>
+            <li><strong>本文链接：</strong><a href="https://atomsk.gitee.io/blog/2020/06/28/Docker-advanced/">https://atomsk.gitee.io/blog/2020/06/28/Docker-advanced/</a></li>
+            <li><strong>发布时间：</strong>2020-06-28</li>
+            <li><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+            </li>
+            </ul>
+        
+        
+        <hr style="height:1px;margin:1rem 0"/>
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <i class="fas fa-tags has-text-grey"></i>&nbsp;
+                    <a class="has-link-grey -link" href="/blog/tags/Docker/" rel="tag">Docker</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="social-share"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/blog/2020/07/02/MySQL-advanced/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">MySQL高级</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/blog/2020/06/26/Docker-base/">
+                <span class="level-item">Docker基础</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+	var gitment = new Gitment({
+		id: '3b37e80211d282b275135c5a68013866',
+		owner: 'AtomskGit',
+		repo: 'blog',
+		oauth: {
+			client_id: 'd4303a39a13433a6c1b7',
+			client_secret: 'c178930c0b66ddc811a1e0c595a3b470aad56d86',
+		},
+	})
+	gitment.render('comment-container')
+</script>
+
+    </div>
+</div>
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level" style="margin-bottom:1rem">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-96x96 has-mb-6">
+                        <img class="" src="https://atomskgit.github.io/blog/images/head.jpg" alt="Atomsk">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Atomsk
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        Atomsk@126.com
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Guangzhou, China</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level menu-list is-mobile" style="margin-bottom:1rem">
+            <div class="level-item has-text-centered is-marginless">
+                <a href="/blog/archives/">
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        14
+                    </p>
+                </a>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <a href="/blog/categories/">
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        11
+                    </p>
+                </a>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <a href="/blog/tags/">
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        11
+                    </p>
+                </a>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://www.github.com/AtomskGit" target="_blank" rel="noopener">
+                <i class="fab fa-github"></i>&nbsp;&nbsp;关注我</a>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+    
+        
+
+    <div class="card widget column-left is-sticky" id="toc">
+        <div class="card-content" style="max-height:calc(100vh - 22px);overflow:scroll">
+            <div class="menu">
+                <h3 class="menu-label">
+                    目录
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#Docker容器数据卷">
+        <span class="has-mr-6">1</span>
+        <span>Docker容器数据卷</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#使用数据卷">
+        <span class="has-mr-6">1.1</span>
+        <span>使用数据卷</span>
+        </a></li><li>
+        <a class="is-flex" href="#使用数据卷容器">
+        <span class="has-mr-6">1.2</span>
+        <span>使用数据卷容器</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Dockerfile">
+        <span class="has-mr-6">2</span>
+        <span>Dockerfile</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#构建步骤">
+        <span class="has-mr-6">2.1</span>
+        <span>构建步骤</span>
+        </a></li><li>
+        <a class="is-flex" href="#Dockerfile的编写">
+        <span class="has-mr-6">2.2</span>
+        <span>Dockerfile的编写</span>
+        </a></li><li>
+        <a class="is-flex" href="#实战：Tomcat镜像构建">
+        <span class="has-mr-6">2.3</span>
+        <span>实战：Tomcat镜像构建</span>
+        </a></li><li>
+        <a class="is-flex" href="#发布镜像">
+        <span class="has-mr-6">2.4</span>
+        <span>发布镜像</span>
+        </a></li><li>
+        <a class="is-flex" href="#小结">
+        <span class="has-mr-6">2.5</span>
+        <span>小结</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/blog/">
+                
+                    <img src="/blog/images/logo.svg" alt="Docker进阶" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Atomsk&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_uv">
+                共<span id="busuanzi_value_site_uv">0</span>个访客
+                </span>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                        
+                        <i class="fab fa-creative-commons"></i>&nbsp;<i class="fab fa-creative-commons-by"></i>&nbsp;<i class="fab fa-creative-commons-nc"></i>&nbsp;<i class="fab fa-creative-commons-sa"></i>&nbsp;
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Atomsk GitHub" href="https://www.github.com/AtomskGit">
+                        
+                        <i class="fab fa-github"></i>&nbsp;
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://atomsk.gitee.io/blog',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/blog/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/blog/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/blog/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/blog/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/blog/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/blog/js/insight.js" defer></script>
+<link rel="stylesheet" href="/blog/css/search.css">
+<link rel="stylesheet" href="/blog/css/insight.css">
+    
+</body>
+</html>
