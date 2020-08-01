@@ -130,7 +130,7 @@
             <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2020-07-13T14:03:39.000Z"><i class="far fa-calendar-alt">&nbsp;</i>2020-07-13</time>
                 
-                <time class="level-item has-text-grey is-hidden-mobile" datetime="2020-08-01T17:20:17.471Z"><i class="far fa-calendar-check">&nbsp;</i>2020-08-02</time>
+                <time class="level-item has-text-grey is-hidden-mobile" datetime="2020-08-01T17:32:44.623Z"><i class="far fa-calendar-check">&nbsp;</i>2020-08-02</time>
                 
                 
                 <div class="level-item">
@@ -143,7 +143,7 @@
                     <i class="far fa-clock"></i>&nbsp;
                     
                     
-                    31 分钟 读完 (大约 4584 个字)
+                    30 分钟 读完 (大约 4533 个字)
                 </span>
                 
                 
@@ -160,6 +160,7 @@
 <li>导入相关依赖</li>
 </ol>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.5.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>8.0.19<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 
 <ol start="2">
 <li>编写MyBatis核心配置文件</li>
@@ -375,7 +376,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">​</span><br></pre></td></tr></table></figure>
 <p>   int currentPage = 1;  //第几页<br>   int pageSize = 2;  //每页显示几个<br>   Map&lt;String,Integer&gt; map = new HashMap&lt;String,Integer&gt;();<br>   map.put(“startIndex”,(currentPage-1)*pageSize);<br>   map.put(“pageSize”,pageSize);</p>
 <p>   List<User> users = mapper.selectUser(map);<br>​```</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">PageHelper</span><br><span class="line"></span><br><span class="line">官方文档：https:&#x2F;&#x2F;pagehelper.github.io&#x2F;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 多对一的处理</span><br><span class="line"></span><br><span class="line">多对一的理解：</span><br><span class="line"></span><br><span class="line">- 多个学生对应一个老师</span><br><span class="line">- 如果对于学生这边，就是一个多对一的现象，即从学生这边关联一个老师！</span><br><span class="line"></span><br><span class="line">&gt; 数据库设计</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">![img](https:&#x2F;&#x2F;mmbiz.qpic.cn&#x2F;mmbiz_png&#x2F;uJDAUKrGC7LPbib5To6slfFhMArq5QvCjofjccx37cuQgKsWEHibax0bDiaicU6ojNfEzWrj3TibFsX3MJju4sAp5Pg&#x2F;640?wx_fmt&#x3D;png&amp;tp&#x3D;webp&amp;wxfrom&#x3D;5&amp;wx_lazy&#x3D;1&amp;wx_co&#x3D;1)</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;mysql</span><br><span class="line">CREATE TABLE &#96;teacher&#96; (</span><br><span class="line">&#96;id&#96; INT(10) NOT NULL,</span><br><span class="line">&#96;name&#96; VARCHAR(30) DEFAULT NULL,</span><br><span class="line">PRIMARY KEY (&#96;id&#96;)</span><br><span class="line">) ENGINE&#x3D;INNODB DEFAULT CHARSET&#x3D;utf8</span><br><span class="line"></span><br><span class="line">INSERT INTO teacher(&#96;id&#96;, &#96;name&#96;) VALUES (1, &#39;秦老师&#39;);</span><br><span class="line"></span><br><span class="line">CREATE TABLE &#96;student&#96; (</span><br><span class="line">&#96;id&#96; INT(10) NOT NULL,</span><br><span class="line">&#96;name&#96; VARCHAR(30) DEFAULT NULL,</span><br><span class="line">&#96;tid&#96; INT(10) DEFAULT NULL,</span><br><span class="line">PRIMARY KEY (&#96;id&#96;),</span><br><span class="line">KEY &#96;fktid&#96; (&#96;tid&#96;),</span><br><span class="line">CONSTRAINT &#96;fktid&#96; FOREIGN KEY (&#96;tid&#96;) REFERENCES &#96;teacher&#96; (&#96;id&#96;)</span><br><span class="line">) ENGINE&#x3D;INNODB DEFAULT CHARSET&#x3D;utf8</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">PageHelper</span><br><span class="line"></span><br><span class="line">官方文档：https:&#x2F;&#x2F;pagehelper.github.io&#x2F;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 多对一的处理</span><br><span class="line"></span><br><span class="line">多对一的理解：</span><br><span class="line"></span><br><span class="line">- 多个学生对应一个老师</span><br><span class="line">- 如果对于学生这边，就是一个多对一的现象，即从学生这边关联一个老师！</span><br><span class="line"></span><br><span class="line">&gt; 数据库设计</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;mysql</span><br><span class="line">CREATE TABLE &#96;teacher&#96; (</span><br><span class="line">&#96;id&#96; INT(10) NOT NULL,</span><br><span class="line">&#96;name&#96; VARCHAR(30) DEFAULT NULL,</span><br><span class="line">PRIMARY KEY (&#96;id&#96;)</span><br><span class="line">) ENGINE&#x3D;INNODB DEFAULT CHARSET&#x3D;utf8</span><br><span class="line"></span><br><span class="line">INSERT INTO teacher(&#96;id&#96;, &#96;name&#96;) VALUES (1, &#39;秦老师&#39;);</span><br><span class="line"></span><br><span class="line">CREATE TABLE &#96;student&#96; (</span><br><span class="line">&#96;id&#96; INT(10) NOT NULL,</span><br><span class="line">&#96;name&#96; VARCHAR(30) DEFAULT NULL,</span><br><span class="line">&#96;tid&#96; INT(10) DEFAULT NULL,</span><br><span class="line">PRIMARY KEY (&#96;id&#96;),</span><br><span class="line">KEY &#96;fktid&#96; (&#96;tid&#96;),</span><br><span class="line">CONSTRAINT &#96;fktid&#96; FOREIGN KEY (&#96;tid&#96;) REFERENCES &#96;teacher&#96; (&#96;id&#96;)</span><br><span class="line">) ENGINE&#x3D;INNODB DEFAULT CHARSET&#x3D;utf8</span><br></pre></td></tr></table></figure>
 
 
 
@@ -547,7 +548,10 @@
 <blockquote>
 <p>缓存原理图</p>
 </blockquote>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7KickRVspms8t4ZU0jXovPT2egdNicaJuVnzMYxibyYFvB0COWW4sgDhHPqvFbG9F9KS1vX7ibIMNqefg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
+
+
+
+
 <blockquote>
 <p>EhCache</p>
 </blockquote>
@@ -678,7 +682,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        19
+                        18
                     </p>
                 </a>
             </div>
