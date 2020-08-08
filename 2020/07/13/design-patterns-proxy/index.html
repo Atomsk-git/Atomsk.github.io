@@ -128,9 +128,9 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-07-28T02:36:41.000Z"><i class="far fa-calendar-alt">&nbsp;</i>2020-07-28</time>
+                <time class="level-item has-text-grey" datetime="2020-07-13T14:03:39.000Z"><i class="far fa-calendar-alt">&nbsp;</i>2020-07-13</time>
                 
-                <time class="level-item has-text-grey is-hidden-mobile" datetime="2020-07-28T02:36:44.553Z"><i class="far fa-calendar-check">&nbsp;</i>2020-07-28</time>
+                <time class="level-item has-text-grey is-hidden-mobile" datetime="2020-08-02T04:49:02.662Z"><i class="far fa-calendar-check">&nbsp;</i>2020-08-02</time>
                 
                 
                 <div class="level-item">
@@ -181,7 +181,7 @@
 <li>代理（Proxy）类：提供了与真实主题相同的接口，其内部含有对真实主题的引用，它可以访问、控制或扩展真实主题的功能。</li>
 </ol>
 <p>其结构图如图 1 所示。</p>
-<center><img src="/blog/2020/07/28/design-patterns-proxy/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.gif" class="" title="代理模式的结构图">
+<center><img src="/blog/2020/07/13/design-patterns-proxy/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.gif" class="" title="代理模式的结构图">
 <br>图1 代理模式的结构图</center>
 
 
@@ -198,7 +198,7 @@
 </li>
 </ul>
 <p>应用实例：租房</p>
-<img src="/blog/2020/07/28/design-patterns-proxy/rent.png" class="" title="未命名文件">
+<img src="/blog/2020/07/13/design-patterns-proxy/rent.png" class="" title="未命名文件">
 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//抽象角色：租房</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Rent</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rent</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//真实角色: 房东，房东要出租房子</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Host</span> <span class="keyword">implements</span> <span class="title">Rent</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"房屋出租"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//代理角色：中介</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Proxy</span> <span class="keyword">implements</span> <span class="title">Rent</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> Host host;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Proxy</span><span class="params">()</span> </span>&#123; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Proxy</span><span class="params">(Host host)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.host = host;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//租房</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rent</span><span class="params">()</span></span>&#123;</span><br><span class="line">        seeHouse();</span><br><span class="line">        host.rent();</span><br><span class="line">        fare();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">seeHouse</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"带房客看房"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fare</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"收中介费"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//客户</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//房东要租房</span></span><br><span class="line">        Host host = <span class="keyword">new</span> Host();</span><br><span class="line">        <span class="comment">//中介帮助房东</span></span><br><span class="line">        Proxy proxy = <span class="keyword">new</span> Proxy(host);</span><br><span class="line">        <span class="comment">//你去找中介！</span></span><br><span class="line">        proxy.rent();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -245,7 +245,7 @@
 </ul>
 <p>所谓DynamicProxy是这样一种class：它是在运行时生成的class，<strong>在生成它时你必须提供一组interface给它，然后该class就宣称它实现了这些 interface</strong>。你当然可以把该class的实例当作这些interface中的任何一个来用。当然，这个DynamicProxy其实就是一个Proxy，它不会替你作实质性的工作，在生成它的实例时你必须提供一个handler，由它接管实际的工作。</p>
 <p>通过这种方式，被代理的对象(RealSubject)可以在运行时动态改变，需要控制的接口(Subject接口)可以在运行时改变，控制的方式(DynamicSubject类)也可以动态改变，从而实现了非常灵活的动态代理关系。</p>
-<img src="/blog/2020/07/28/design-patterns-proxy/newProxyInstance.jpg" class="" title="img">
+<img src="/blog/2020/07/13/design-patterns-proxy/newProxyInstance.jpg" class="" title="img">
 
 
 
@@ -273,10 +273,10 @@
         </div>
         
             <ul class="post-copyright">
-            <li><strong>本文标题：</strong><a href="https://atomsk.gitee.io/blog/2020/07/28/design-patterns-proxy/">设计模式之代理模式</a></li>
+            <li><strong>本文标题：</strong><a href="https://atomsk.gitee.io/blog/2020/07/13/design-patterns-proxy/">设计模式之代理模式</a></li>
             <li><strong>本文作者：</strong><a href="https://atomsk.gitee.io/blog">Atomsk</a></li>
-            <li><strong>本文链接：</strong><a href="https://atomsk.gitee.io/blog/2020/07/28/design-patterns-proxy/">https://atomsk.gitee.io/blog/2020/07/28/design-patterns-proxy/</a></li>
-            <li><strong>发布时间：</strong>2020-07-28</li>
+            <li><strong>本文链接：</strong><a href="https://atomsk.gitee.io/blog/2020/07/13/design-patterns-proxy/">https://atomsk.gitee.io/blog/2020/07/13/design-patterns-proxy/</a></li>
+            <li><strong>发布时间：</strong>2020-07-13</li>
             <li><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
             </li>
             </ul>
@@ -309,16 +309,16 @@
     <div class="level post-navigation is-flex-wrap is-mobile">
         
         <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/blog/2020/07/30/spring-5/">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/blog/2020/07/28/mybatis/">
                 <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">Spring5</span>
+                <span class="level-item">MyBatis</span>
             </a>
         </div>
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/blog/2020/07/13/mybatis/">
-                <span class="level-item">MyBatis</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/blog/2020/07/10/design-patterns-creating/">
+                <span class="level-item">设计模式之创建型模式</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -337,7 +337,7 @@
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 	var gitment = new Gitment({
-		id: '5deebad6b6154ee61e290e15f89bb58c',
+		id: '641ec78f205abeabc31619344d1f5fe7',
 		owner: 'AtomskGit',
 		repo: 'blog',
 		oauth: {
@@ -395,7 +395,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        18
+                        19
                     </p>
                 </a>
             </div>
@@ -405,7 +405,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        13
+                        14
                     </p>
                 </a>
             </div>
@@ -415,7 +415,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        16
+                        17
                     </p>
                 </a>
             </div>

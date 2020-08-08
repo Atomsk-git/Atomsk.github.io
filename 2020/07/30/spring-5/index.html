@@ -130,7 +130,7 @@
             <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2020-07-30T02:30:45.000Z"><i class="far fa-calendar-alt">&nbsp;</i>2020-07-30</time>
                 
-                <time class="level-item has-text-grey is-hidden-mobile" datetime="2020-08-01T17:34:06.951Z"><i class="far fa-calendar-check">&nbsp;</i>2020-08-02</time>
+                <time class="level-item has-text-grey is-hidden-mobile" datetime="2020-08-02T04:50:56.463Z"><i class="far fa-calendar-check">&nbsp;</i>2020-08-02</time>
                 
                 
                 <div class="level-item">
@@ -143,7 +143,7 @@
                     <i class="far fa-clock"></i>&nbsp;
                     
                     
-                    1 小时 读完 (大约 9131 个字)
+                    1 小时 读完 (大约 9123 个字)
                 </span>
                 
                 
@@ -646,7 +646,8 @@
 
 
 <h3 id="整合方式二"><a href="#整合方式二" class="headerlink" title="整合方式二"></a>整合方式二</h3><p>使用SqlSessionDaoSupport, 直接利用 getSqlSession() 获得Mapper， 比起方式一 , 不需要管理SqlSessionTemplate , 而且对事务的支持更加友好</p>
-<h4 id="SqlSessionDaoSupport"><a href="#SqlSessionDaoSupport" class="headerlink" title="SqlSessionDaoSupport"></a>SqlSessionDaoSupport</h4><p><img src="C:/Users/Administrator/AppData/Roaming/Typora/typora-user-images/image-20200729133605262.png" alt="image-20200729133605262"></p>
+<h4 id="SqlSessionDaoSupport"><a href="#SqlSessionDaoSupport" class="headerlink" title="SqlSessionDaoSupport"></a>SqlSessionDaoSupport</h4><img src="/blog/2020/07/30/spring-5/SqlSessionDaoSupport.png" class="" title="image-20200729133605262">
+
 <p>1、继承SqlSessionDaoSupport并实现Mapper</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserDaoImpl</span> <span class="keyword">extends</span> <span class="title">SqlSessionDaoSupport</span> <span class="keyword">implements</span> <span class="title">UserMapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSqlSessionTemplate</span><span class="params">(SqlSessionFactory sqlSessionFactory)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.setSqlSessionFactory(sqlSessionFactory);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">getAllUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        UserMapper mapper = getSqlSession().getMapper(UserMapper<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        <span class="keyword">return</span> mapper.getAllUser();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -751,8 +752,8 @@
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/blog/2020/07/28/design-patterns-proxy/">
-                <span class="level-item">设计模式之代理模式</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/blog/2020/07/28/mybatis/">
+                <span class="level-item">MyBatis</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -829,7 +830,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        18
+                        19
                     </p>
                 </a>
             </div>
@@ -839,7 +840,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        13
+                        14
                     </p>
                 </a>
             </div>
@@ -849,7 +850,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        16
+                        17
                     </p>
                 </a>
             </div>
